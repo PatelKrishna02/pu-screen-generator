@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+ENV/
+env/
+*.egg-info/
+
+# IIS / Windows Server
+wfastcgi.*
+web.config
+app.wsgi
+
+# Cache / Runtime
+runtime
+*.log
+
+# VSCode / Temp files
+.vscode/
+.DS_Store
+Thumbs.db
+
+
+# Flask env vars
+.env

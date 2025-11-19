@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Generator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+  </header>
+  
+
+  <h1>Enter Measurements</h1>
+  <form method="POST" action="/">
+    
+    <fieldset class="top-left">
+      <legend>Screen Name and Version Number</legend>
+      <label for="harp_name">Screen Name:</label>
+      <input type="text" id="harp_name" name="harp_name" value="{{ form_data.get('harp_name', '') }}">
+      <label for="version_number">Version Number:</label>
+      <input type="text" id="version_number" name="version_number" value="{{ form_data.get('version_number', '') }}">
+    </fieldset>
+
+    <div class="form-grid">
+      <fieldset class="left-field">
+        <legend><i class="fas fa-ruler-combined"></i>Overall Dimensions</legend>
+        <label for="width">Width (mm):</label>
+        <input type="text" id="width" name="width" value="{{ form_data.get('width', '') }}">
+  
+        <label for="height">Height (mm):</label>
+        <input type="text" id="height" name="height" value="{{ form_data.get('height', '') }}">
+  
+        <label for="background_type">Screen Type:</label>
+        <select id="background_type" name="background_type">
+          <option value="" disabled {% if not form_data.get('background_type') %}selected{% endif %}>Select Screen Type</option>
+          <option value="PU Hert" {% if form_data.get('background_type') == 'PU Hert' %}selected{% endif %}>PU Hert</option>
+          <option value="Diamond Type" {% if form_data.get('background_type') == 'Diamond Type' %}selected{% endif %}>Diamond Type</option>
+          <option value="S Type" {% if form_data.get('background_type') == 'S Type' %}selected{% endif %}>S Type</option>
+          <option value="T Type" {% if form_data.get('background_type') == 'T Type' %}selected{% endif %}>T Type</option>
+        </select>
+
+
+        <label for="magnified_image">Magnified Aperture Image:</label>
+        <select id="magnified_image" name="magnified_image">
+          <option value="" disabled {% if not form_data.get('magnified_image') %}selected{% endif %}>Select Magnified Aperture Image</option>
+          <option value="PUHert" {% if form_data.get('magnified_image') == 'PUHert' %}selected{% endif %}>Magnified PU Hert</option>
+          <option value="DimondType" {% if form_data.get('magnified_image') == 'DimondType' %}selected{% endif %}>Magnified Dimond Type</option>
+          <option value="SType" {% if form_data.get('magnified_image') == 'SType' %}selected{% endif %}>Magnified S Type</option>
+          <option value="TType" {% if form_data.get('magnified_image') == 'TType' %}selected{% endif %}>Magnified T Type</option>
+        </select>
+
+
+        <label for="poly_ridge">Poly Ridge Style:</label>
+        <select id="poly_ridge" name="poly_ridge">
+          <option value="" disabled {% if not form_data.get('poly_ridge') %}selected{% endif %}>Select Ridge Style</option>
+          <option value="" {% if form_data.get('poly_ridge') %}selected{% endif %}>None</option>
+          <option value="Bottom Pu Strip" {% if form_data.get('poly_ridge') == 'Bottom Pu Strip' %}selected{% endif %}>Bottom Pu Strip Only</option>
+          <option value="Top Pu Strip" {% if form_data.get('poly_ridge') == 'Top Pu Strip' %}selected{% endif %}>Top PU Strip Only</option>
+          <option value="To and Bottom Pu Strip" {% if form_data.get('poly_ridge') == 'To and Bottom Pu Strip' %}selected{% endif %}>Top and Bottom Pu Strip</option>
+        </select>
+      </fieldset>
+        
+  
+      <fieldset class="right-field">
+        <legend>PU Strips & Center PU Strip</legend>
+        <label for="pu_quantity">Number of PU Strips:</label>
+        <input type="text" id="pu_quantity" name="pu_quantity" min="2" max="9" value="{{ form_data.get('pu_quantity', '') }}">
+  
+        <label for="center_overlap">Center PU Strip:</label>
+        <select id="center_overlap" name="center_overlap">
+          <option value="" disabled {% if not form_data.get('center_overlap') %}selected{% endif %}>Select Center PU Strip</option>
+          <option value="No" {% if form_data.get('center_overlap') == 'No' %}selected{% endif %}>No</option>
+          <option value="Yes" {% if form_data.get('center_overlap') == 'Yes' %}selected{% endif %}>Yes</option>
+        </select>
+        <div id="distance_fields_container">
+          {% if form_data.get('center_overlap') == 'Yes' %}
+            <label>Left Spacing Values:</label><br>
+            {% set left_list = form_data.get('left_spacing', []) %}
+            {% for i in range((form_data.get('pu_quantity') | int) // 2 + 1) %}
+              <input type="text" name="left_spacing" value="{{ left_list[i] if i < left_list|length else '' }}" required>
+            {% endfor %}
+            <br><br>
+        
+            <label>Right Spacing Values:</label><br>
+            {% set right_list = form_data.get('right_spacing', []) %}
+            {% for i in range((form_data.get('pu_quantity') | int) - (form_data.get('pu_quantity') | int) // 2 + 1) %}
+              <input type="text" name="right_spacing" value="{{ right_list[i] if i < right_list|length else '' }}" required>
+            {% endfor %}
+            
+          {% elif form_data.get('center_overlap') == 'No' %}
+            <label>Spacing Values:</label><br>
+            {% set spacing_list = form_data.get('spacing', []) %}
+            {% for i in range((form_data.get('pu_quantity') | int) + 1) %}
+              <input type="text" name="spacing" value="{{ spacing_list[i] if i < spacing_list|length else '' }}" required>
+            {% endfor %}
+          {% endif %}
+        </div>
+        
+
+      </fieldset>
+    </div>
+    <hr class="section-divider">
+
+    <div class="form-grid">
+      <fieldset class="left-field">
+        <legend>Hook Type</legend>
+        <label for="hook_type">Select Hook Type:</label>
+        <select id="hook_type" name="hook_type">
+          <option value="" disabled {% if not form_data.get('hook_type') %}selected{% endif %}>Select Hook Type</option>
+          {% for hook in ["01", "02", "03", "05", "06", "07", "08", "10", "11", "12", "14", "15", "16", "17", "18", "19", "20"] %}
+            <option value="{{ hook }}" {% if form_data.get('hook_type') == hook %}selected{% endif %}>{{ hook }}</option>
+          {% endfor %}
+        </select>
+      </fieldset>
+    
+    
+      <fieldset class="right-field">
+        <legend>PU Sickness and Center Strip Detail</legend>
+        <label for="pu_sickness_image">Magnified PU Sickness Image:</label>
+          <select id="pu_sickness_image" name="pu_sickness_image">
+            <option value="" disabled {% if not form_data.get('pu_sickness_image') %}selected{% endif %}>Select Magnified PU Sickness Image</option>
+            <option value="" {% if form_data.get('pu_sickness_image') %}selected{% endif %}>None</option>
+            <option value="PUSizeDetail" {% if form_data.get('pu_sickness_image') == "PUSizeDetail" %}selected{% endif %}>PU Sickness Image</option>
+          </select>
+
+          <label for="center_strip_image">Magnified Center Strip Image:</label>
+          <select id="center_strip_image" name="center_strip_image">
+            <option value="" disabled {% if not form_data.get('center_strip_image') %}selected{% endif %}>Select Magnified Center Strip Image</option>
+            <option value="" {% if form_data.get('center_strip_image') %}selected{% endif %}>None</option>
+            <option value="CenterStripDetail" {% if form_data.get('center_strip_image') == "CenterStripDetail" %}selected{% endif %}>Center Strip Image</option>
+          </select>
+
+      </fieldset>
+    </div>
+    <hr class="section-divider">
+
+    <fieldset class="bottom-legend wide-legend">
+      <legend>Additional Options</legend>
+      <label for="overlap">Bottom Overlap:</label>
+      <select id="overlap" name="overlap">
+        <option value="" disabled {% if not form_data.get('overlap') %}selected{% endif %}>Select Bottom Overlap</option>
+        <option value="No" {% if form_data.get('overlap') == "No" %}selected{% endif %}>No</option>
+        <option value="Yes" {% if form_data.get('overlap') == "Yes" %}selected{% endif %}>Yes</option>
+      </select>
+
+      <label for="center_holes">Center Holes:</label>
+      <select id="center_holes" name="center_holes">
+        <option value="" disabled {% if not form_data.get('center_holes') %}selected{% endif %}>Select Center Holes</option>
+        <option value="No" {% if form_data.get('center_holes') == "No" %}selected{% endif %}>No</option>
+        <option value="Yes" {% if form_data.get('center_holes') == "Yes" %}selected{% endif %}>Yes</option>
+      </select>
+
+  
+      <label for="num_center_holes">Number of Center Holes:</label>
+      <input type="number" id="num_center_holes" name="num_center_holes" value="{{ form_data.get('num_center_holes', '0') }}">
+  
+      <label for="hole_distances">Hole Distances (comma-separated):</label>
+      <input type="text" id="hole_distances" name="hole_distances" value="{{ form_data.get('hole_distances', '') }}">
+
+      <label for="additional_pu_strip">Additional PU Strip:</label>
+      <select id="additional_pu_strip" name="additional_pu_strip">
+        <option value="" disabled {% if not form_data.get('additional_pu_strip') %}selected{% endif %}>Select Additional PU Strip</option>
+        <option value="No" {% if form_data.get('additional_pu_strip') == "No" %}selected{% endif %}>No</option>
+        <option value="Yes" {% if form_data.get('additional_pu_strip') == "Yes" %}selected{% endif %}>Yes</option>
+      </select>
+
+      <div id="checkbox_container"></div>
+
+
+      <label for="additional_message">Additional Information:</label>
+      <textarea id="additional_message" name="additional_message" rows="8" style="width: 100%;">{{ form_data.get('additional_message', '') }}</textarea>
+    </fieldset>
+  
+    <button type="submit">Generate Image</button>
+  </form>
+  <footer>
+    <p>© 2025 Screen Generator | Designed by Krishna Patel</p>
+  </footer>
+  
+  
+  {% if error_message %}
+  <script>
+    alert("{{ error_message }}");
+  </script>
+  {% endif %}
+  
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generated Image - {{ harp_name }}</title>
+  {% if version_number %}
+  <p class="version-label">Version: v{{ version_number }}</p>
+{% endif %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header>
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+  </header>
+
+  <div class="container">
+    <div class="image-container">
+      <img src="data:image/png;base64,{{ image_data }}" alt="Generated Image">
+    </div>
+  
+    <div class="button-row">
+      <form method="POST" action="/">
+        <input type="hidden" name="action" value="edit">
+        {% for key, value in form_data.items() %}
+          {% if value is iterable and value is not string and value.__class__.__name__ != 'str' %}
+            {% for item in value %}
+              <input type="hidden" name="{{ key }}" value="{{ item }}">
+            {% endfor %}
+          {% else %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+          {% endif %}
+        {% endfor %}
+        <button type="submit" class="action-btn">Edit</button>
+      </form>
+    
+      <form method="GET" action="/">
+        <button type="submit" class="action-btn">New</button>
+      </form>
+    </div>
+    
+    <form action="/generate-pdf" method="post">
+  <input type="hidden" name="action" value="download">
+    {% for key, value in form_data.items() %}
+        {% if value is iterable and not value|string %}
+            {% for v in value %}
+                <input type="hidden" name="{{ key }}" value="{{ v }}">
+            {% endfor %}
+        {% else %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endif %}
+    {% endfor %}
+    <button type="submit">Download PDF</button>
+</form>
+
+    
+  
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <footer>
+    <p class="app-version">Version: {{ app_version }}</p>
+    <p>© 2025 Harp Generator | Designed by Krishna Patel</p>
+  </footer>
+  
+
+
+
+</body>
+</html>
