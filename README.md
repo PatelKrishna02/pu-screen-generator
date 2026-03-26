@@ -9,7 +9,7 @@ Built using Flask, Python, HTML/CSS, and PIL/OpenCV, this project enables users 
 
 - Live preview of generated PU screen
 - Custom spacing, bar count, and strip layout
-- - Optional center overlaps, hooks, poly ridge strips, and PU strip configurations
+- Optional center overlaps, hooks, poly ridge strips, and PU strip configurations
 - Input validation for spacing and dimensions
 - Export output as high-resolution PDF
 - Responsive user interface
