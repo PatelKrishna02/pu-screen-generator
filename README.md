@@ -1,4 +1,5 @@
-PU Screen Generator 
+PU Screen Generator
+
 A fully functional web application to visually design and generate PU Harp configurations for industrial screening applications.
 Built using Flask, Python, HTML/CSS, and PIL/OpenCV, this project enables users to customize spacing, strip styles, hook types, and more, then download the result as PDF.
 
