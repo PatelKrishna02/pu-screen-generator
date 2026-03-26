@@ -1,17 +1,24 @@
-PU Harp Generator 
+PU Screen Generator 
 A fully functional web application to visually design and generate PU Harp configurations for industrial screening applications.
-Built using Flask, Python, HTML/CSS, and PIL/OpenCV, this project enables users to customize spacing, strip styles, hook types, and more — then download the result as PDF.
+Built using Flask, Python, HTML/CSS, and PIL/OpenCV, this project enables users to customize spacing, strip styles, hook types, and more, then download the result as PDF.
 
 ---
 
 🔍 Features
 
-- 🎨 Live preview of generated PU harp based on user inputs
-- 📐 Custom spacing, bar count, and strip layout
-- 🔩 Optional center overlaps, hooks, poly ridge strips, and PU sickness representations
-- 🧠 Validations: Ensures spacing and height values match properly
-- 📎 Downloads: Save the output as high-resolution PDF
-- 📱 Responsive UI and intuitive layout
+- Live preview of generated PU screen
+- Custom spacing, bar count, and strip layout
+- - Optional center overlaps, hooks, poly ridge strips, and PU strip configurations
+- Input validation for spacing and dimensions
+- Export output as high-resolution PDF
+- Responsive user interface
+
+---
+
+## 💡 Problem Solved
+Manual PU screen design required repetitive calculations and manual drafting, increasing time and risk of error.
+
+This application automates the entire process by converting user inputs into accurate engineering diagrams and production-ready PDFs.
 
 ---
 
@@ -55,22 +62,17 @@ Visit `http://127.0.0.1:5000` in your browser.
 
 ---
 
-Hosting on IIS (Windows)
+## Deployment (IIS - Windows)
 
-This repository contains application code only.
-To run on IIS, additional configuration is required:
+This application can be deployed on IIS using FastCGI.
 
-Install Python on the server
+Steps include:
+- Install Python on the server
+- Configure FastCGI / wfastcgi
+- Set up IIS site pointing to application directory
+- Configure web.config and WSGI entry point
 
-Install FastCGI / wfastcgi
-
-Create a site pointing to your app folder
-
-Add web.config and app.wsgi files
-
-Configure handler mappings
-
-These files are not included in the repository to keep it platform-independent.
+Note: Deployment configuration files are not included to keep the repository platform-independent.
 
 ## 🖼️ Screenshots
 ![alt text](measurement_upperform.png)
@@ -92,11 +94,11 @@ A manufacturing engineer wants to visualize a custom PU screen configuration wit
 
 ---
 
- ✨ Why This Project Stands Out
-
-- Combines UI design with custom image rendering
-- Demonstrates full-stack ability: form handling, validations, image processing, and export
-- Perfect for roles in web development, engineering interfaces, or industrial web tooling
+## 🚀 Highlights
+- Full-stack application combining UI, backend logic, and image processing
+- Automates a real-world engineering workflow
+- Generates production-ready outputs used in manufacturing
+- Demonstrates practical problem-solving through software
 
 ---
 
@@ -108,9 +110,5 @@ Western Sydney University
 
 ---
 
-License
-
-This project is proprietary and intended for internal/company use.
-Redistribution without permission is not allowed.
-
-> ✨ Designed and built with love and loops.
+## License
+This project was developed for internal/company use. Code is shared for demonstration purposes only.
